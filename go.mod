@@ -1,3 +1,3 @@
-module github/livghit/gopreter
+module github.com/livghit/gopreter
 
 go 1.20

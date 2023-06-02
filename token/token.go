@@ -29,7 +29,7 @@ const (
 	LPAR    = "LPAR"
 	RPAR    = "RPAR"
 	LSQURLY = "LSQURLY"
-	RSQUR   = "RSQURLY"
+	RSQURLY = "RSQURLY"
 
 	// keywords
 
