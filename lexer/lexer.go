@@ -4,14 +4,14 @@ import "github.com/livghit/gopreter/token"
 
 type Lexer struct {
 	input        string
-	position     int
-	readPosition int
-	ch           byte
+	position     int  // current position in input (points to current char)
+	readPosition int  // current reading position in input (after current char)
+	ch           byte // current char under examination
 }
 
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
-	l.readChar()
+  l.readChar()
 	return l
 }
 
@@ -21,7 +21,6 @@ func (l *Lexer) readChar() {
 	} else {
 		l.ch = l.input[l.readPosition]
 	}
-
 	l.position = l.readPosition
 	l.readPosition += 1
 }
@@ -38,21 +37,22 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LPAR, l.ch)
 	case ')':
 		tok = newToken(token.RPAR, l.ch)
-	case '{':
-		tok = newToken(token.LSQURLY, l.ch)
-	case '}':
-		tok = newToken(token.RSQURLY, l.ch)
 	case ',':
 		tok = newToken(token.COMMA, l.ch)
 	case '+':
 		tok = newToken(token.PLUS, l.ch)
 	case '-':
 		tok = newToken(token.MINUS, l.ch)
+	case '{':
+		tok = newToken(token.LSQURLY, l.ch)
+	case '}':
+		tok = newToken(token.RSQURLY, l.ch)
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
 	}
 
+	l.readChar()
 	return tok
 }
 

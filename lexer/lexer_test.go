@@ -19,22 +19,24 @@ func TestNextToken(t *testing.T) {
 		{token.MINUS, "-"},
 		{token.LSQURLY, "{"},
 		{token.RSQURLY, "}"},
+		{token.PLUS, "+"},
+		{token.MINUS, "-"},
+		{token.EOF, ""},
 	}
 
-  l := New(input)
+	l := New(input)
 
+	for i, tt := range test {
+		tok := l.NextToken()
 
-  for i , tt := range test{
-    tok := l.NextToken()
+		if tok.Type != tt.expectedType {
+			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q",
+				i, tt.expectedType, tok.Type)
+		}
 
-    if tok.Type != tt.expectedType {
-            t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q",
-                i, tt.expectedType, tok.Type)
-        }
-
-        if tok.Literal != tt.expectedLiteral {
-            t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q",
-                i, tt.expectedLiteral, tok.Literal)
-        }
-  }
+		if tok.Literal != tt.expectedLiteral {
+			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q",
+				i, tt.expectedLiteral, tok.Literal)
+		}
+	}
 }
