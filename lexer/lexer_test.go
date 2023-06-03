@@ -6,20 +6,18 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := `=+-(){}`
+	input := `=+(){}-`
 
 	test := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
 		{token.ASSING, "="},
+		{token.PLUS, "+"},
 		{token.LPAR, "("},
 		{token.RPAR, ")"},
-		{token.PLUS, "+"},
-		{token.MINUS, "-"},
 		{token.LSQURLY, "{"},
 		{token.RSQURLY, "}"},
-		{token.PLUS, "+"},
 		{token.MINUS, "-"},
 		{token.EOF, ""},
 	}
