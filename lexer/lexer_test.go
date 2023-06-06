@@ -4,7 +4,6 @@ import (
 	"github.com/livghit/gopreter/token"
 	"testing"
 )
-
 func TestNextToken(t *testing.T) {
 	input := `let five = 5;
   let ten = 10;

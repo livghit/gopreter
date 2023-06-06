@@ -17,6 +17,7 @@ func New(input string) *Lexer {
 
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
+	l.skipWhitespace()  
 
 	switch l.ch {
 	case '=':
@@ -45,6 +46,8 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdentifier(tok.Literal)
 			return tok
+		} else if isDigit(l.ch) {
+
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
@@ -54,7 +57,15 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
-// Helper function
+/*
+ * Helper function - that ignores the withe space inside the code input
+ */
+func (l *Lexer) skipWhitespace() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
+	}
+}
+
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
@@ -63,6 +74,15 @@ func (l *Lexer) readChar() {
 	}
 	l.position = l.readPosition
 	l.readPosition += 1
+}
+
+func (l *Lexer) readNumber() string {
+	position := l.position
+
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
 }
 
 func (l *Lexer) readIdentifier() string {
@@ -75,6 +95,10 @@ func (l *Lexer) readIdentifier() string {
 
 func isLetter(ch byte) bool {
 	return 'a' <= ch && 'z' <= ch || 'A' <= ch && 'Z' <= ch || ch == '_'
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
 }
 
 func newToken(tokenType token.TokenType, ch byte) token.Token {
