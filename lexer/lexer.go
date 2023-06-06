@@ -46,8 +46,9 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdentifier(tok.Literal)
 			return tok
-		} else if isDigit(l.ch) {
-
+      } else if isDigit(l.ch) {
+      tok.Literal = l.readNumber()
+      tok.Type = token.INT
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
