@@ -23,9 +23,7 @@ const (
 	MINUS  = "MINUS"
 
 	//Delimiters ( , ), { , } , ;
-	COMMA     = "COMMA"
-	SEMICOLUM = "SEMICOLUM"
-
+	COMMA   = "COMMA"
 	LPAR    = "LPAR"
 	RPAR    = "RPAR"
 	LSQURLY = "LSQURLY"
