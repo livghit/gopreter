@@ -22,8 +22,6 @@ func (l *Lexer) NextToken() token.Token {
 	switch l.ch {
 	case '=':
 		tok = newToken(token.ASSING, l.ch)
-	case ';':
-		tok = newToken(token.SEMICOLUM, l.ch)
 	case '(':
 		tok = newToken(token.LPAR, l.ch)
 	case ')':
