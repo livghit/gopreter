@@ -17,13 +17,15 @@ func New(input string) *Lexer {
 
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
-	l.skipWhitespace()  
+	l.skipWhitespace()
 
 	switch l.ch {
 	case '=':
 		tok = newToken(token.ASSING, l.ch)
 	case '(':
 		tok = newToken(token.LPAR, l.ch)
+	case ';':
+		tok = newToken(token.SEMICOLON, l.ch)
 	case ')':
 		tok = newToken(token.RPAR, l.ch)
 	case ',':
@@ -36,6 +38,16 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LSQURLY, l.ch)
 	case '}':
 		tok = newToken(token.RSQURLY, l.ch)
+	case '!':
+		tok = newToken(token.BANG, l.ch)
+	case '/':
+		tok = newToken(token.SLASH, l.ch)
+	case '*':
+		tok = newToken(token.ASTER, l.ch)
+	case '>':
+		tok = newToken(token.GT, l.ch)
+	case '<':
+		tok = newToken(token.LT, l.ch)
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -44,9 +56,9 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdentifier(tok.Literal)
 			return tok
-      } else if isDigit(l.ch) {
-      tok.Literal = l.readNumber()
-      tok.Type = token.INT
+		} else if isDigit(l.ch) {
+			tok.Literal = l.readNumber()
+			tok.Type = token.INT
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}

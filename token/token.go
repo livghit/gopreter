@@ -18,16 +18,22 @@ const (
 	INT   = "INT"   // integer like 1 ,2 ,3 ,4
 
 	// Operators
-	ASSING = "ASSING"
-	PLUS   = "PLUS"
-	MINUS  = "MINUS"
+	ASSING = "="
+	PLUS   = "+"
+	MINUS  = "-"
+	BANG   = "!"
+	ASTER  = "*"
+	SLASH  = "/"
+	LT     = "<"
+	GT     = ">"
 
 	//Delimiters ( , ), { , } , ;
-	COMMA   = "COMMA"
-	LPAR    = "LPAR"
-	RPAR    = "RPAR"
-	LSQURLY = "LSQURLY"
-	RSQURLY = "RSQURLY"
+	COMMA     = ","
+  SEMICOLON = ";"
+	LPAR      = "("
+	RPAR      = ")"
+	LSQURLY   = "{"
+	RSQURLY   = "}"
 
 	// keywords
 

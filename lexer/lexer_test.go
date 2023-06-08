@@ -4,15 +4,15 @@ import (
 	"github.com/livghit/gopreter/token"
 	"testing"
 )
+
 func TestNextToken(t *testing.T) {
-	input := `let five = 5
-  let ten = 10
+	input := `let five = 5 ;
+  let ten = 10 ;
     let add = fn(x,y){
-    x + y
-  }
-    let result = add(five , ten)
+    x + y ;
+  } ;
+    let result = add(five , ten) ;
     !-/*5
-   5 < 10 > 5
   `
 
 	test := []struct {
@@ -23,10 +23,12 @@ func TestNextToken(t *testing.T) {
 		{token.IDENT, "five"},
 		{token.ASSING, "="},
 		{token.INT, "5"},
+		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "ten"},
 		{token.ASSING, "="},
 		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "add"},
 		{token.ASSING, "="},
@@ -40,7 +42,9 @@ func TestNextToken(t *testing.T) {
 		{token.IDENT, "x"},
 		{token.PLUS, "+"},
 		{token.IDENT, "y"},
+		{token.SEMICOLON, ";"},
 		{token.RSQURLY, "}"},
+		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "result"},
 		{token.ASSING, "="},
@@ -50,6 +54,12 @@ func TestNextToken(t *testing.T) {
 		{token.COMMA, ","},
 		{token.IDENT, "ten"},
 		{token.RPAR, ")"},
+		{token.SEMICOLON, ";"},
+		{token.BANG, "!"},
+		{token.MINUS, "-"},
+		{token.SLASH, "/"},
+		{token.ASTER, "*"},
+		{token.INT, "5"},
 		{token.EOF, ""},
 	}
 
