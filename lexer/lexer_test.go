@@ -7,14 +7,19 @@ import (
 
 func TestNextToken(t *testing.T) {
 	input := `let five = 5 ;
-  let ten = 10 ;
-    let add = fn(x,y){
-    x + y ;
-  } ;
-    let result = add(five , ten) ;
-    !-/*5
-  `
-
+      let ten = 10 ;
+          let add = fn( x ,y ) {
+        x + y ;
+      } ;
+        let result = add(five , ten) ;
+        !-/*5
+        
+        if ( 5 < 10 ) {
+      return true
+      } else {
+      return false
+      }
+      `
 	test := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
@@ -60,6 +65,21 @@ func TestNextToken(t *testing.T) {
 		{token.SLASH, "/"},
 		{token.ASTER, "*"},
 		{token.INT, "5"},
+		{token.IF, "if"},
+		{token.LPAR, "("},
+		{token.INT, "5"},
+		{token.LT, "<"},
+		{token.INT, "10"},
+		{token.RPAR, ")"},
+		{token.LSQURLY, "{"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.RSQURLY, "}"},
+		{token.ELSE, "else"},
+		{token.LSQURLY, "{"},
+		{token.RETURN, "return"},
+		{token.FALSE, "false"},
+		{token.RSQURLY, "}"},
 		{token.EOF, ""},
 	}
 
