@@ -1,8 +1,6 @@
 package lexer
 
-import (
-	"github.com/livghit/gopreter/token"
-)
+import "github.com/livghit/gopreter/token"
 
 type Lexer struct {
 	input        string
@@ -19,6 +17,7 @@ func New(input string) *Lexer {
 
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
+
 	l.skipWhitespace()
 
 	switch l.ch {
@@ -29,24 +28,12 @@ func (l *Lexer) NextToken() token.Token {
 			literal := string(ch) + string(l.ch)
 			tok = token.Token{Type: token.EQ, Literal: literal}
 		} else {
-			tok = newToken(token.ASSING, l.ch)
+			tok = newToken(token.ASSIGN, l.ch)
 		}
-	case '(':
-		tok = newToken(token.LPAR, l.ch)
-	case ';':
-		tok = newToken(token.SEMICOLON, l.ch)
-	case ')':
-		tok = newToken(token.RPAR, l.ch)
-	case ',':
-		tok = newToken(token.COMMA, l.ch)
 	case '+':
 		tok = newToken(token.PLUS, l.ch)
 	case '-':
 		tok = newToken(token.MINUS, l.ch)
-	case '{':
-		tok = newToken(token.LSQURLY, l.ch)
-	case '}':
-		tok = newToken(token.RSQURLY, l.ch)
 	case '!':
 		if l.peekChar() == '=' {
 			ch := l.ch
@@ -59,22 +46,35 @@ func (l *Lexer) NextToken() token.Token {
 	case '/':
 		tok = newToken(token.SLASH, l.ch)
 	case '*':
-		tok = newToken(token.ASTER, l.ch)
-	case '>':
-		tok = newToken(token.GT, l.ch)
+		tok = newToken(token.ASTERISK, l.ch)
 	case '<':
 		tok = newToken(token.LT, l.ch)
+	case '>':
+		tok = newToken(token.GT, l.ch)
+	case ';':
+		tok = newToken(token.SEMICOLON, l.ch)
+	case ',':
+		tok = newToken(token.COMMA, l.ch)
+	case '{':
+		tok = newToken(token.LBRACE, l.ch)
+	case '}':
+		tok = newToken(token.RBRACE, l.ch)
+	case '(':
+		tok = newToken(token.LPAREN, l.ch)
+	case ')':
+		tok = newToken(token.RPAREN, l.ch)
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
 	default:
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
-			tok.Type = token.LookupIdentifier(tok.Literal)
+			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
 		} else if isDigit(l.ch) {
-			tok.Literal = l.readNumber()
 			tok.Type = token.INT
+			tok.Literal = l.readNumber()
+			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
@@ -84,9 +84,6 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
-/*
- * Helper function - that ignores the withe space inside the code input
- */
 func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
@@ -111,15 +108,6 @@ func (l *Lexer) peekChar() byte {
 	}
 }
 
-func (l *Lexer) readNumber() string {
-	position := l.position
-
-	for isDigit(l.ch) {
-		l.readChar()
-	}
-	return l.input[position:l.position]
-}
-
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
@@ -128,8 +116,16 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
+func (l *Lexer) readNumber() string {
+	position := l.position
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
 func isLetter(ch byte) bool {
-	return 'a' <= ch && 'z' <= ch || 'A' <= ch && 'Z' <= ch || ch == '_'
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
 
 func isDigit(ch byte) bool {
