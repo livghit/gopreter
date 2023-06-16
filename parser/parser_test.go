@@ -1,11 +1,9 @@
 package parser
 
 import (
-	"fmt"
-	"testing"
-
 	"github.com/livghit/gopreter/ast"
 	"github.com/livghit/gopreter/lexer"
+	"testing"
 )
 
 func TestLetStatements(t *testing.T) {
@@ -17,7 +15,7 @@ let foobar = 838383;
 	l := lexer.New(input)
 	p := New(l)
 
-	program := p.ParseProgramm()
+	program := p.ParseProgram()
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
@@ -37,7 +35,6 @@ let foobar = 838383;
 	for i, tt := range tests {
 		stmt := program.Statements[i]
 		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
-			fmt.Print("Hello")
 			return
 		}
 	}
@@ -65,6 +62,5 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 			name, letStmt.Name.TokenLiteral())
 		return false
 	}
-
 	return true
 }
