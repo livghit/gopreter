@@ -53,8 +53,8 @@ func (p *Parser) expectPeek(t token.TokenType) bool {
 	}
 }
 
-func (p *Parser) ParseProgramm() *ast.Programm {
-	program := &ast.Programm{}
+func (p *Parser) ParseProgramm() *ast.Program {
+	program := &ast.Program{}
 	program.Statements = []ast.Statement{}
 
 	for p.curToken.Type != token.EOF {

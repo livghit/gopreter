@@ -18,7 +18,7 @@ type Expresion interface {
 	expresionNode()
 }
 
-type Programm struct {
+type Program struct {
 	Statements []Statement
 }
 
@@ -28,7 +28,7 @@ type LetStatement struct {
 	Value Expresion
 }
 
-func (p *Programm) TokenLiteral() string {
+func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
 		return p.Statements[0].TokenLiteral()
 	} else {
